@@ -12,26 +12,18 @@ public class Main {
 
 	public static void main(String[] args) {
 		ProxyFactory proxyFactory = new ProxyFactory();
-		proxyFactory.setProxyTargetClass(false);
 		//proxyFactory.setOptimize(true);
+		proxyFactory.setProxyTargetClass(true);
 		TestBean target = new TestBean();
 		proxyFactory.setTarget(target);
 		proxyFactory.addAdvisor(new DefaultIntroductionAdvisor(new DelegatingIntroductionInterceptor(new Impl())));
 		Object proxy = proxyFactory.getProxy();
-		//TestBean testBean = (TestBean) proxy;
-		//testBean.test();
+		ITestBean testBean = (ITestBean) proxy;
+		testBean.test();
 		Foo foo = (Foo) proxy;
 		foo.foo(1);
 		Bar bar = (Bar) proxy;
 		bar.bar();
-	}
-
-}
-
-class TestBean {
-	
-	public void test() {
-		System.out.println("invoked TestBean...");
 	}
 
 }

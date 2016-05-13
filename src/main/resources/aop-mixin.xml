@@ -9,22 +9,19 @@
 		http://www.springframework.org/schema/aop/spring-aop-4.1.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.1.xsd">
 
-	<aop:aspectj-autoproxy proxy-target-class="false" expose-proxy="true"/>
+	<aop:aspectj-autoproxy proxy-target-class="true"/>
 	
-	<bean id="simpleAdvice" class="com.rabbit.aop.example.spring.xml.SimpleAdvice" />
+	<bean id="testBean" class="com.rabbit.aop.example.spring.introduction.TestBean" />
 	
 	<bean id="impl" class="com.rabbit.aop.example.Impl" />
 
 	<aop:config>
-		<aop:aspect id="aspect" ref="simpleAdvice">
-			<aop:pointcut id="pointcut" expression="execution(* com.rabbit.aop.example.Foo.foo(..))"/>
-			
-			<aop:before method="doBefore" pointcut-ref="pointcut" />
-			<aop:after method="doAfter" pointcut-ref="pointcut" />
-			<!-- <aop:around method="doAround" pointcut-ref="pointcut" />
-			<aop:after-returning method="doReturn" pointcut-ref="pointcut" />
-			<aop:after-throwing method="doThrowing" throwing="ex" pointcut-ref="pointcut" /> -->
-		</aop:aspect>
-	</aop:config>
+        <aop:aspect>
+            <aop:declare-parents types-matching="com.rabbit.aop.example.introduction.TestBean+"
+                                 implement-interface="com.rabbit.aop.example.Foo"
+                                 delegate-ref="impl" />
+                                 
+        </aop:aspect>
+    </aop:config>
 
 </beans>
